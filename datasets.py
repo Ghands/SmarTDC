@@ -56,10 +56,8 @@ class CreateMNIST(object):
         self.test_dataset = datasets.MNIST(data_dir, train=False, download=True, transform=apply_transform)
         self.num_users = num_users
 
-        train_shape = self.train_dataset.data.shape
-        self.train_dataset.data = self.train_dataset.data.reshape([train_shape[0], 1, train_shape[1], train_shape[2]])
-        test_shape = self.test_dataset.data.shape
-        self.test_dataset.data = self.test_dataset.data.reshape([test_shape[0], 1, test_shape[1], test_shape[2]])
+        self.train_dataset.data = self.train_dataset.data.unsqueeze(1)
+        self.train_dataset.data = self.test_dataset.data.unsqueeze(1)
 
     def create_iid(self, save_filename=None):
         num_items = int(len(self.train_dataset) / self.num_users)
@@ -189,10 +187,8 @@ class CreateCIFAR10(object):
         self.test_dataset = datasets.CIFAR10(data_dir, train=False, download=True, transform=apply_transform)
         self.num_users = num_users
 
-        train_shape = self.train_dataset.data.shape
-        self.train_dataset.data = self.train_dataset.data.reshape([train_shape[0], train_shape[3], train_shape[1], train_shape[2]])
-        test_shape = self.test_dataset.data.shape
-        self.test_dataset.data = self.test_dataset.data.reshape([test_shape[0], test_shape[3], test_shape[1], test_shape[2]])
+        self.train_dataset.data = self.train_dataset.data.permute(0, 3, 1, 2)
+        self.test_dataset.data = self.test_dataset.data.permute(0, 3 ,1, 2)
 
     def create_iid(self, save_filename=None):
         num_items = int(len(self.train_dataset)/ self.num_users)
