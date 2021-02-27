@@ -57,7 +57,7 @@ class CreateMNIST(object):
         self.num_users = num_users
 
         self.train_dataset.data = self.train_dataset.data.unsqueeze(1)
-        self.train_dataset.data = self.test_dataset.data.unsqueeze(1)
+        self.test_dataset.data = self.test_dataset.data.unsqueeze(1)
 
     def create_iid(self, save_filename=None):
         num_items = int(len(self.train_dataset) / self.num_users)
